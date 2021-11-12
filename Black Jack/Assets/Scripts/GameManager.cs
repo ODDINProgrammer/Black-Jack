@@ -24,29 +24,34 @@ public class GameManager : MonoBehaviour
             StartCoroutine(corutine);
         }
         //  EVALUATE RESULTS
-        else
-        {
-            CheckResults();
-        }
+        CheckResults();
     }
 
     public void NewDeal()
     {
-        //  RESET GAME
-        if (!isFirstGame)
-            SceneManager.LoadScene(0);
-
-        if (isFirstGame)
-            isFirstGame = false;
+        ResetGame();
 
         BM.DisableDealButton();
         BM.ActivateKeepButton();
         BM.ActivateTakeButton();
 
-        player.Deal();
-        ai.Deal();
+        IEnumerator coroutine = DealAfter(0.05f);
+        StartCoroutine(coroutine);
     }
     #endregion
+
+    private void ResetGame()
+    {
+        //  REMOVE CARDS FROM AI
+        foreach (Transform child in ai.ai_hand)
+            GameObject.Destroy(child.gameObject);
+        //  REMOVE CARDS FROM PLAYER
+        foreach (Transform child in player.player_hand)
+            GameObject.Destroy(child.gameObject);
+        //  RESET TOTAL VALUE OF HANDS
+        player.player_total = 0;
+        ai.ai_total = 0;
+    }
 
     //  IENUMERATORS
     #region
@@ -55,6 +60,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         ai.AddCard();
         AI_turn();
+    }
+
+    private IEnumerator DealAfter(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        player.FirstDeal();
+        ai.Deal();
     }
     #endregion
 
@@ -88,10 +100,15 @@ public class GameManager : MonoBehaviour
     {
         if (ai.ai_total == 21 && player.player_total == 21)
             Draw();
+
         if (ai.ai_total > 21)
             PlayerWin();
+
         if (ai.ai_total > player.player_total && ai.ai_total <= 21)
             PlayerLost();
+
+        if (ai.ai_total == player.player_total)
+            Draw();
     }
     #endregion
 }

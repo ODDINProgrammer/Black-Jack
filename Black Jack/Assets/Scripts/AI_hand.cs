@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class AI_hand : MonoBehaviour
 {
     [SerializeField] internal int ai_total;
-    [SerializeField] private RectTransform ai_hand;
+    [SerializeField] internal RectTransform ai_hand;
     [SerializeField] private Deck deck_access;
     [SerializeField] private Sprite card_backface;
 
@@ -20,8 +20,11 @@ public class AI_hand : MonoBehaviour
         newCard.CardSO = deck_access.deck[rand];
         //  MOVE TO PLAYER HAND 
         newCard.transform.position = ai_hand.position;
-
+        //  SET CARD VALUES 
         newCard.PrepareCard();
+        //  IF DEALT CARD IS ACE AND TOTAL VALUE WILL BE LARGER THAN 21, SET ACE VALUE TO 1
+        if (newCard.CardSO.type == CardSO.Card_type.ace && ai_total + newCard.value > 21)
+            newCard.value = 1;
 
         AddAITotal(newCard.value);
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player_hand : MonoBehaviour
 {
     [SerializeField] internal int player_total;
-    [SerializeField] private RectTransform player_hand;
+    [SerializeField] internal RectTransform player_hand;
     [SerializeField] private Deck deck_access;
     [SerializeField] private GameManager GM;
 
@@ -19,13 +19,16 @@ public class Player_hand : MonoBehaviour
         newCard.CardSO = deck_access.deck[rand];
         //  MOVE TO PLAYER HAND 
         newCard.transform.position = player_hand.position;
-
+        //  SET CARD VALUES 
         newCard.PrepareCard();
+        //  IF DEALT CARD IS ACE AND TOTAL VALUE WILL BE LARGER THAN 21, SET ACE VALUE TO 1
+        if (newCard.CardSO.type == CardSO.Card_type.ace && player_total + newCard.value > 21)
+            newCard.value = 1;
 
         AddPlayerTotal(newCard.value);
     }
 
-    internal void Deal()
+    internal void FirstDeal()
     {
         //  DEAL TWO CARDS
         AddCard();
