@@ -8,18 +8,12 @@ public class Card : MonoBehaviour
     public enum Card_type { two, three, four, five, six, seven, eight, nine, ten, jack, queen, king, ace };
     private Card_type type;
 
-    private int value;
+    internal int value;
     [SerializeField] internal CardSO CardSO;
-    [SerializeField] private GameManager GM;
 
     private void OnValidate()
     {
         SetCardValue();
-    }
-
-    private void Awake()
-    {
-        GM = FindObjectOfType<GameManager>();
     }
 
     private void SetCardValue()
@@ -73,6 +67,5 @@ public class Card : MonoBehaviour
         type = (Card_type)CardSO.type;
         GetComponentInChildren<Image>().sprite = CardSO.Sprite;
         SetCardValue();
-        GM.GetComponent<Player_hand>().AddPlayerTotal(value);
     }
 }

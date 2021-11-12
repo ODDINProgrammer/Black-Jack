@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private AI_hand ai;
+    [SerializeField] private Player_hand player;
+
+    public void AI_turn()
     {
-        
+        //  DISPLAY HIDDEN CARD
+        ai.RevealCard();
+        //  TAKE CARD
+        if (ai.ai_total <= player.player_total)
+        {
+            IEnumerator turn = AI_take_card(1f);
+            StartCoroutine(turn);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator AI_take_card(float seconds)
     {
-        
+        yield return new WaitForSeconds(seconds);
+        ai.AddCard();
+        AI_turn();
     }
 }

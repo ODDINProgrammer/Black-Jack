@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player_hand : MonoBehaviour
 {
     [SerializeField] internal int player_total;
+    [SerializeField] private RectTransform player_hand;
     [SerializeField] private Deck deck_access;
 
     public void AddCard()
@@ -12,18 +13,21 @@ public class Player_hand : MonoBehaviour
         //  PICK RANDOM CARD SETTING FROM DECK
         int rand = Random.Range(0, deck_access.deck.Count);
         //  INSTANTIATE A CARD
-        Card newCard = Instantiate(deck_access.card_prefab, transform);
+        Card newCard = Instantiate(deck_access.card_prefab, player_hand);
         //  ASSIGN SETTING
         newCard.CardSO = deck_access.deck[rand];
         //  MOVE TO PLAYER HAND 
-        newCard.transform.position = transform.position;
+        newCard.transform.position = player_hand.position;
 
         newCard.PrepareCard();
+
+        AddPlayerTotal(newCard.value);
     }
 
     private void Awake()
     {
-            
+        AddCard();
+        AddCard();
     }
 
     internal void AddPlayerTotal(int _value)
@@ -34,13 +38,4 @@ public class Player_hand : MonoBehaviour
             Debug.Log("You lost");
         }
     }
-
-    private bool isTooMuch()
-    {
-        if (player_total > 21)
-            return true;
-
-        return false;
-    }
-   
 }
