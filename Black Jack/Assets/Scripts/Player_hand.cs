@@ -7,6 +7,7 @@ public class Player_hand : MonoBehaviour
     [SerializeField] internal int player_total;
     [SerializeField] private RectTransform player_hand;
     [SerializeField] private Deck deck_access;
+    [SerializeField] private GameManager GM;
 
     public void AddCard()
     {
@@ -24,18 +25,24 @@ public class Player_hand : MonoBehaviour
         AddPlayerTotal(newCard.value);
     }
 
-    private void Awake()
+    internal void Deal()
     {
+        //  DEAL TWO CARDS
         AddCard();
         AddCard();
+        //  CHECK IF 21 WAS DEALT 
+        //  IF 21 WAS DEALT COUNT PLAYER WIN
+        if (player_total == 21)
+            GM.PlayerWin();
     }
 
     internal void AddPlayerTotal(int _value)
     {
         player_total += _value;
-        if(player_total > 21)
-        {
-            Debug.Log("You lost");
-        }
+        if (player_total > 21)
+            GM.PlayerLost();
+
+        if (player_total == 21)
+            GM.PlayerWin();
     }
 }

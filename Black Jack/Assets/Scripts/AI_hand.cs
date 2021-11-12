@@ -31,7 +31,7 @@ public class AI_hand : MonoBehaviour
         ai_hand.GetChild(1).GetComponent<Card>().GetComponentInChildren<Image>().sprite = ai_hand.GetChild(1).GetComponent<Card>().CardSO.Sprite;
     }
 
-    private void Awake()
+    internal void Deal()
     {
         AddCard();
         AddCard();
@@ -41,10 +41,6 @@ public class AI_hand : MonoBehaviour
     private void AddAITotal(int _value)
     {
         ai_total += _value;
-        if (ai_total > 21)
-        {
-            Debug.Log("You lost");
-        }
     }
 
     private void HideSecondCard()
