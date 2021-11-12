@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AI_hand ai;
     [SerializeField] private Player_hand player;
     [SerializeField] internal ButtonManager BM;
+    [SerializeField] internal ScoreManager SM;
 
     private bool isFirstGame = true;
 
@@ -39,6 +40,11 @@ public class GameManager : MonoBehaviour
         StartCoroutine(coroutine);
     }
     #endregion
+
+    private void Awake()
+    {
+        SM.UpdateScoreText();
+    }
 
     private void ResetGame()
     {
@@ -74,7 +80,8 @@ public class GameManager : MonoBehaviour
     #region 
     internal void PlayerWin()
     {
-        Debug.Log("You won!");
+        SM.AddToWinCount();
+
         BM.ActivateDealButton();
         BM.DisableKeepButton();
         BM.DisableTakeButton();
@@ -82,7 +89,8 @@ public class GameManager : MonoBehaviour
 
     internal void PlayerLost()
     {
-        Debug.Log("You lost!");
+        SM.AddToLoseCount();
+
         BM.ActivateDealButton();
         BM.DisableKeepButton();
         BM.DisableTakeButton();
@@ -90,7 +98,8 @@ public class GameManager : MonoBehaviour
 
     internal void Draw()
     {
-        Debug.Log("Draw!");
+        SM.AddToDrawCount();
+
         BM.ActivateDealButton();
         BM.DisableKeepButton();
         BM.DisableTakeButton();
