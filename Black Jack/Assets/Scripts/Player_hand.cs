@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player_hand : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Player_hand : MonoBehaviour
     [SerializeField] internal RectTransform player_hand;
     [SerializeField] private Deck deck_access;
     [SerializeField] private GameManager GM;
+    [SerializeField] private TextMeshProUGUI handValueText;
 
     public void AddCard()
     {
@@ -42,6 +44,7 @@ public class Player_hand : MonoBehaviour
     internal void AddPlayerTotal(int _value)
     {
         player_total += _value;
+        handValueText.SetText(player_total.ToString());
         if (player_total > 21)
             GM.PlayerLost();
 

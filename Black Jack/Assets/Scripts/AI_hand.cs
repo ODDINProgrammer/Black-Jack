@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class AI_hand : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class AI_hand : MonoBehaviour
     [SerializeField] private Deck deck_access;
     [SerializeField] private Sprite card_backface;
     [SerializeField] private GameManager GM;
+    [SerializeField] private TextMeshProUGUI handValueText;
 
     public void AddCard()
     {
@@ -36,9 +38,10 @@ public class AI_hand : MonoBehaviour
         GM.soundMan.PlayCardSound();
     }
 
-    internal void Deal()
+    internal void FirstDeal()
     {
         AddCard();
+        handValueText.SetText(ai_hand.GetChild(0).GetComponent<Card>().value.ToString());
         AddCard();
         HideSecondCard();
     }
@@ -51,5 +54,10 @@ public class AI_hand : MonoBehaviour
     private void HideSecondCard()
     {
         ai_hand.GetChild(1).GetComponent<Card>().GetComponentInChildren<Image>().sprite = card_backface;
+    }
+
+    internal void ChangeValueText()
+    {
+        handValueText.SetText(ai_total.ToString());
     }
 }

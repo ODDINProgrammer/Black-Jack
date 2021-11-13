@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     {
         //  DISPLAY HIDDEN CARD
         ai.RevealCard();
+        ai.ChangeValueText();
         //  TAKE CARD IF DEALER HAS LESS THAN PLAYER
         if (ai.ai_total < player.player_total)
         {
@@ -66,15 +67,16 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         ai.AddCard();
-        AI_turn();
+        ai.ChangeValueText();
         soundMan.PlayCardSound();
+        AI_turn();
     }
 
     private IEnumerator DealAfter(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         player.FirstDeal();
-        ai.Deal();
+        ai.FirstDeal();
         soundMan.PlayCardSound();
     }
     #endregion
@@ -88,6 +90,8 @@ public class GameManager : MonoBehaviour
         buttonMan.ActivateDealButton();
         buttonMan.DisableKeepButton();
         buttonMan.DisableTakeButton();
+
+        soundMan.PlayWin();
     }
 
     internal void PlayerLost()
@@ -97,6 +101,8 @@ public class GameManager : MonoBehaviour
         buttonMan.ActivateDealButton();
         buttonMan.DisableKeepButton();
         buttonMan.DisableTakeButton();
+
+        soundMan.PlayLose();
     }
 
     internal void Draw()
@@ -106,6 +112,8 @@ public class GameManager : MonoBehaviour
         buttonMan.ActivateDealButton();
         buttonMan.DisableKeepButton();
         buttonMan.DisableTakeButton();
+
+        soundMan.PlayDraw();
     }
 
     private void CheckResults()
