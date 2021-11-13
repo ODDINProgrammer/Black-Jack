@@ -7,8 +7,9 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private AI_hand ai;
     [SerializeField] private Player_hand player;
-    [SerializeField] internal ButtonManager BM;
-    [SerializeField] internal ScoreManager SM;
+    [SerializeField] internal ButtonManager buttonMan;
+    [SerializeField] internal ScoreManager scoreMan;
+    [SerializeField] internal SoundManager soundMan;
 
     private bool isFirstGame = true;
 
@@ -32,9 +33,9 @@ public class GameManager : MonoBehaviour
     {
         ResetGame();
 
-        BM.DisableDealButton();
-        BM.ActivateKeepButton();
-        BM.ActivateTakeButton();
+        buttonMan.DisableDealButton();
+        buttonMan.ActivateKeepButton();
+        buttonMan.ActivateTakeButton();
 
         IEnumerator coroutine = DealAfter(0.05f);
         StartCoroutine(coroutine);
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        SM.UpdateScoreText();
+        scoreMan.UpdateScoreText();
     }
 
     private void ResetGame()
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         ai.AddCard();
         AI_turn();
+        soundMan.PlayCardSound();
     }
 
     private IEnumerator DealAfter(float seconds)
@@ -73,6 +75,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         player.FirstDeal();
         ai.Deal();
+        soundMan.PlayCardSound();
     }
     #endregion
 
@@ -80,29 +83,29 @@ public class GameManager : MonoBehaviour
     #region 
     internal void PlayerWin()
     {
-        SM.AddToWinCount();
+        scoreMan.AddToWinCount();
 
-        BM.ActivateDealButton();
-        BM.DisableKeepButton();
-        BM.DisableTakeButton();
+        buttonMan.ActivateDealButton();
+        buttonMan.DisableKeepButton();
+        buttonMan.DisableTakeButton();
     }
 
     internal void PlayerLost()
     {
-        SM.AddToLoseCount();
+        scoreMan.AddToLoseCount();
 
-        BM.ActivateDealButton();
-        BM.DisableKeepButton();
-        BM.DisableTakeButton();
+        buttonMan.ActivateDealButton();
+        buttonMan.DisableKeepButton();
+        buttonMan.DisableTakeButton();
     }
 
     internal void Draw()
     {
-        SM.AddToDrawCount();
+        scoreMan.AddToDrawCount();
 
-        BM.ActivateDealButton();
-        BM.DisableKeepButton();
-        BM.DisableTakeButton();
+        buttonMan.ActivateDealButton();
+        buttonMan.DisableKeepButton();
+        buttonMan.DisableTakeButton();
     }
 
     private void CheckResults()

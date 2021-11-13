@@ -8,6 +8,7 @@ public class ButtonManager : MonoBehaviour
     [SerializeField] private Button Take;
     [SerializeField] private Button Keep;
     [SerializeField] private Button Deal;
+    [SerializeField] private Button Quit;
 
     public void DisableTakeButton()
     {
@@ -21,7 +22,6 @@ public class ButtonManager : MonoBehaviour
     {
         Deal.interactable = false;
     }
-
     public void ActivateTakeButton()
     {
         Take.interactable = true;
@@ -33,5 +33,9 @@ public class ButtonManager : MonoBehaviour
     public void ActivateDealButton()
     {
         Deal.interactable = true;
+    }
+    public void QuitButton()
+    {
+        Application.Quit();
     }
 }

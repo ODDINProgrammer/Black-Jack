@@ -9,6 +9,7 @@ public class AI_hand : MonoBehaviour
     [SerializeField] internal RectTransform ai_hand;
     [SerializeField] private Deck deck_access;
     [SerializeField] private Sprite card_backface;
+    [SerializeField] private GameManager GM;
 
     public void AddCard()
     {
@@ -32,6 +33,7 @@ public class AI_hand : MonoBehaviour
     public void RevealCard()
     {
         ai_hand.GetChild(1).GetComponent<Card>().GetComponentInChildren<Image>().sprite = ai_hand.GetChild(1).GetComponent<Card>().CardSO.Sprite;
+        GM.soundMan.PlayCardSound();
     }
 
     internal void Deal()
